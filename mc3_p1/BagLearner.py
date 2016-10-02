@@ -20,7 +20,8 @@ class BagLearner(object):
         for i in xrange(bags):
             self.learners.append(learner(**kwargs))
 
-    def get_random_indices(self, n, n_prime_percent):
+    @staticmethod
+    def get_random_indices(n, n_prime_percent):
         indices = []
         for i in xrange(int(n_prime_percent * n)):
             indices.append(randint(0, n - 1))
@@ -28,8 +29,8 @@ class BagLearner(object):
 
     def addEvidence(self, Xtrain, Ytrain):
         for learner in self.learners:
-            indices = \
-                self.get_random_indices(Xtrain.shape[0], self.N_PRIME_PERCENT)
+            indices = BagLearner.get_random_indices(Xtrain.shape[0],
+                                                    self.N_PRIME_PERCENT)
             current_x_train = []
             current_y_train = []
             for index in indices:
@@ -48,5 +49,3 @@ class BagLearner(object):
                 results = np.add(results, current_result)
         results /= len(self.learners)
         return results
-        #return np.array([5]*Xtest.shape[0])
-
