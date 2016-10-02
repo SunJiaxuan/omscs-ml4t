@@ -5,6 +5,7 @@ Test a learner.  (c) 2015 Tucker Balch
 import numpy as np
 import math
 import LinRegLearner as lrl
+import RTLearner as rtl
 import sys
 
 if __name__ == "__main__":
@@ -28,7 +29,8 @@ if __name__ == "__main__":
     print testY.shape
 
     # create a learner and train it
-    learner = lrl.LinRegLearner(verbose=True)  # create a LinRegLearner
+    #learner = lrl.LinRegLearner(verbose=True)  # create a LinRegLearner
+    learner = rtl.RTLearner(leaf_size=1, verbose=True)
     learner.addEvidence(trainX, trainY)  # train it
 
     # evaluate in sample
