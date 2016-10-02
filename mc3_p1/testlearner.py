@@ -6,6 +6,7 @@ import numpy as np
 import math
 import LinRegLearner as lrl
 import RTLearner as rtl
+import BagLearner as bl
 import sys
 
 if __name__ == "__main__":
@@ -30,7 +31,8 @@ if __name__ == "__main__":
 
     # create a learner and train it
     #learner = lrl.LinRegLearner(verbose=True)  # create a LinRegLearner
-    learner = rtl.RTLearner(leaf_size=1, verbose=True)
+    #learner = rtl.RTLearner(leaf_size=1, verbose=True)
+    learner = bl.BagLearner(learner=rtl.RTLearner, kwargs={'leaf_size': 1}, bags=20, verbose=False)
     learner.addEvidence(trainX, trainY)  # train it
 
     # evaluate in sample
