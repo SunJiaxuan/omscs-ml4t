@@ -31,14 +31,17 @@ if __name__ == "__main__":
 
     # create a learner and train it
     #learner = lrl.LinRegLearner(verbose=True)  # create a LinRegLearner
-    #learner = rtl.RTLearner(leaf_size=1, verbose=True)
-    learner = bl.BagLearner(learner=rtl.RTLearner, kwargs={'leaf_size': 1}, bags=20, verbose=False)
+    #learner = rtl.RTLearner(leaf_size=300, verbose=True)
+    learner = bl.BagLearner(learner=rtl.RTLearner,
+                            kwargs={'leaf_size': 100},
+                            bags=20,
+                            verbose=False)
     learner.addEvidence(trainX, trainY)  # train it
 
     # evaluate in sample
     predY = learner.query(trainX)  # get the predictions
     rmse = math.sqrt(((trainY - predY) ** 2).sum()/trainY.shape[0])
-    print
+
     print "In sample results"
     print "RMSE: ", rmse
     c = np.corrcoef(predY, y=trainY)
@@ -47,7 +50,7 @@ if __name__ == "__main__":
     # evaluate out of sample
     predY = learner.query(testX)  # get the predictions
     rmse = math.sqrt(((testY - predY) ** 2).sum()/testY.shape[0])
-    print
+
     print "Out of sample results"
     print "RMSE: ", rmse
     c = np.corrcoef(predY, y=testY)

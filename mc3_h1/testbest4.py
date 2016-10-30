@@ -8,6 +8,7 @@ import LinRegLearner as lrl
 import RTLearner as rt
 from gen_data import best4LinReg, best4RT
 
+
 # compare two learners' rmse out of sample
 def compare_os_rmse(learner1, learner2, X, Y):
 
@@ -37,11 +38,12 @@ def compare_os_rmse(learner1, learner2, X, Y):
 
     return rmse1, rmse2
 
+
 def test_code():
 
     # create two learners and get data
-    lrlearner = lrl.LinRegLearner(verbose = False)
-    rtlearner = rt.RTLearner(verbose = False, leaf_size = 1)
+    lrlearner = lrl.LinRegLearner(verbose=False)
+    rtlearner = rt.RTLearner(verbose=False, leaf_size=1)
     X, Y = best4LinReg()
 
     # compare the two learners
@@ -59,8 +61,8 @@ def test_code():
     print
 
     # get data that is best for a random tree
-    lrlearner = lrl.LinRegLearner(verbose = False)
-    rtlearner = rt.RTLearner(verbose = False, leaf_size = 1)
+    lrlearner = lrl.LinRegLearner(verbose=False)
+    rtlearner = rt.RTLearner(verbose=False, leaf_size=1)
     X, Y = best4RT()
 
     # compare the two learners
@@ -77,5 +79,5 @@ def test_code():
         print "RT < 0.9 LR:  fail"
     print
 
-if __name__=="__main__":
+if __name__ == "__main__":
     test_code()
