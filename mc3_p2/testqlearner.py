@@ -116,12 +116,14 @@ def test(map, iterations, learner, verbose):
 # each iteration involves one trip to the goal
     startpos = getrobotpos(map)  # find where the robot starts
     goalpos = getgoalpos(map)  # find where the goal is
-    for iteration in range(1,iterations+1): 
+    scores = np.zeros((iterations, 1))
+    for iteration in range(1, iterations+1):
         total_reward = 0
         data = map.copy()
         robopos = startpos
-        state = discretize(robopos) #convert the location to a state
-        action = learner.querysetstate(state) #set the state and get first action
+        state = discretize(robopos)  # convert the location to a state
+        action = learner.querysetstate(state)  # set the state and get first
+        # action
         count = 0
         while (robopos != goalpos) & (count<100000):
 
@@ -148,7 +150,8 @@ def test(map, iterations, learner, verbose):
             printmap(data)
         if verbose:
             print iteration, total_reward
-    return total_reward
+        scores[iteration-1,0] = total_reward
+    return np.median(scores)
 
 
 # run the code to test a learner
@@ -160,7 +163,8 @@ def test_code():
     filename = 'testworlds/world13.csv'
     inf = open(filename)
     data = np.array([map(float,s.strip().split(',')) for s in inf.readlines()])
-    originalmap = data.copy()  # make a copy so we can revert to the original map later
+    originalmap = data.copy()  # make a copy so we can revert to the original
+    # map later
 
     if verbose: printmap(data)
 
@@ -177,8 +181,9 @@ def test_code():
         verbose=False)  # initialize the learner
     iterations = 500
     total_reward = test(data, iterations, learner, verbose)
-    print "results for", filename
-    print iterations, "iterations with total_reward" , total_reward
+    print iterations, "median total_reward" , total_reward
+    print
+    non_dyna_score = total_reward
 
     ######## run dyna test ########
     learner = ql.QLearner(num_states=100,
@@ -192,8 +197,14 @@ def test_code():
     iterations = 50
     data = originalmap.copy()
     total_reward = test(data, iterations, learner, verbose)
+    print iterations, "median total_reward" , total_reward
+    dyna_score = total_reward
+
+    print
+    print
     print "results for", filename
-    print iterations, "iterations with total_reward" , total_reward
+    print "non_dyna_score:", non_dyna_score
+    print "dyna_score    :", dyna_score
 
 if __name__ == "__main__":
     test_code()
